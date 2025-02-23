@@ -1,4 +1,7 @@
-﻿namespace Rock_paper_scissors_game
+﻿using System.Text;
+using System.Xml.Linq;
+
+namespace Rock_paper_scissors_game
 {
     internal class Program
     {
@@ -7,73 +10,93 @@
             Random rnd = new Random();
 
             bool play = true;
-
-            string Element = Convert.ToString(rnd.Next(1, 4));
+            bool Examination = false;
+          
+            Dictionary<string, string> Choise = new Dictionary<string, string>()
+            {
+                { "Stone", "Scissors" },
+                { "Paper", "Stone" },
+                { "Scissors", "Paper" }
+            };
+            
+            string Systems = Convert.ToString(rnd.Next(1, 4));
             string Stone = "Stone", Scissors = "Scissors", Paper = "Paper";
-            string sg = "";
-            string k = "";
+            string Player;
+            string IsPlaying;
 
             while (play)
             {
 
                 Console.Write("print Stone or Scissors or Paper: ");
-                sg = Console.ReadLine();
+                Player = Console.ReadLine();
 
-                if (sg == "")
+                switch (Player)
                 {
-                    while (true)
+                    case "stone":
+                        Player = Player.Replace("s", "S"); break;
+                    case "scissors":
+                        Player = Player.Replace("s", "S"); break;
+                    case "paper":
+                        Player = Player.Replace("p", "P"); break;
+
+                }
+
+                if (Player == "" || Player != "Stone" || Player != "Scissors" || Player != "Paper")
+                {
+                    Examination = true;
+                    
+                    while (Examination)
                     {
                         Console.Write("print Stone or Scissors or Paper: ");
-                        sg = Console.ReadLine();
+                        Player = Console.ReadLine();
 
+                        switch (Player)
+                        {
+                            case "stone":
+                                Player = Player.Replace("s", "S"); break;
+                            case "scissors":
+                                Player = Player.Replace("s", "S"); break;
+                            case "paper":
+                                Player = Player.Replace("p", "P"); break;
+
+                        }
+
+                        if (Player == "Stone" || Player == "Scissors" || Player == "Paper") 
+                        {
+                            Examination = false;
+                        }
+                        else { Examination = true; }
                     }
                 }
 
-                else { }
-
-                switch (sg)
+                switch (Systems) 
                 {
-                    case "stone":
-                        sg = sg.Replace("s", "S");
-                        break;
-                    case "scissors":
-                        sg = sg.Replace("s", "S");
-                        break;
-                    case "paper":
-                        sg = sg.Replace("p", "P");
-                        break;
-
+                    case "1":
+                        Systems = "Stone"; Console.WriteLine(); Console.WriteLine("System: " + Systems); break;
+                    case "2":
+                        Systems = "Scissors"; Console.WriteLine(); Console.WriteLine("System: " + Systems); break;
+                    case "3":
+                        Systems = "Paper"; Console.WriteLine(); Console.WriteLine("System: " + Systems); break;
+                }
+               
+                if (Player == Systems) 
+                {
+                    Console.WriteLine("draw"); 
+                }
+                else if (Choise[Player] == Systems) 
+                {
+                    Console.WriteLine("you Win!");
+                }
+                else 
+                {   
+                    Console.WriteLine("You gotta choose rock or paper or scissor!"); 
                 }
 
-                if (Element == "1")
-                {
-                    Element = "Stone"; Console.WriteLine(); Console.WriteLine(Element);
-                }
-                else if (Element == "2")
-                {
-                    Element = "Scissor"; Console.WriteLine(); Console.WriteLine(Element);
-                }
-                else if (Element == "3")
-                {
-                    Element = "Paper"; Console.WriteLine(); Console.WriteLine(Element);
-                }
-
-                if (sg == Stone && Element == "Stone") { Console.WriteLine("draw"); }
-                else if (sg == Stone && Element == "Scissor") { Console.WriteLine("you Win!"); }
-                else if (sg == Stone && Element == "Paper") { Console.WriteLine("you Defeat"); }
-                else if (sg == Scissors && Element == "Stone") { Console.WriteLine("you Defeat"); }
-                else if (sg == Scissors && Element == "Scissor") { Console.WriteLine("draw"); }
-                else if (sg == Scissors && Element == "Paper") { Console.WriteLine("you Win!"); }
-                else if (sg == Paper && Element == "Stone") { Console.WriteLine("you Win!"); }
-                else if (sg == Paper && Element == "Scissor") { Console.WriteLine("you Defeat"); }
-                else if (sg == Paper && Element == "Paper") { Console.WriteLine("draw"); }
-
-                else { Console.WriteLine("You gotta choose rock or paper or scissor!"); }
-
+                Console.WriteLine();
                 Console.WriteLine("Do you want to play again? (Y/N): ");
-                k = Console.ReadLine(); k = k.ToUpper();
+                IsPlaying = Console.ReadLine(); IsPlaying = IsPlaying.ToUpper();
 
-                if (k == "Y") { play = true; }
+                if (IsPlaying == "Y") { play = true; }
                 else { play = false; }
             }
         }
